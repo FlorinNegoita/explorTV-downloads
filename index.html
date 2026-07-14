@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05070a">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Descarcă cea mai recentă versiune explorTV pentru Android TV și Fire TV.">
+  <title>Descarcă explorTV</title>
+
+  <style>
+    :root {
+      --bg: #05070a;
+      --panel: rgba(15, 19, 26, 0.78);
+      --panel-strong: rgba(18, 23, 31, 0.96);
+      --text: #f7f9fc;
+      --muted: #a8b0bd;
+      --line: rgba(255, 255, 255, 0.11);
+      --accent: #68a9ff;
+      --accent-2: #8fc4ff;
+      --success: #79d59b;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(47, 116, 212, 0.22), transparent 30rem),
+        radial-gradient(circle at 88% 80%, rgba(55, 100, 170, 0.14), transparent 34rem),
+        linear-gradient(145deg, #030507 0%, #080b10 48%, #020304 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 86%);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 42px;
+      position: relative;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 54px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 24px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.025));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    }
+
+    .brand-mark svg { width: 24px; height: 24px; }
+
+    .brand span:last-child { color: var(--accent-2); }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #d9f9e4;
+      border: 1px solid rgba(121, 213, 155, .32);
+      background: rgba(121, 213, 155, .08);
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .top-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      box-shadow: 0 0 18px rgba(121, 213, 155, .8);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+      gap: 58px;
+      align-items: center;
+      min-height: 610px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(52px, 7.5vw, 92px);
+      line-height: .95;
+      letter-spacing: -.065em;
+    }
+
+    .lead {
+      max-width: 640px;
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 26px 0 0;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #dbe1ea;
+      padding: 8px 11px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .download-card {
+      position: relative;
+      border: 1px solid rgba(255,255,255,.13);
+      background: linear-gradient(160deg, rgba(20, 26, 36, .94), rgba(9, 12, 17, .88));
+      padding: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+
+    .download-card::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -100px;
+      top: -110px;
+      border: 1px solid rgba(104,169,255,.28);
+      transform: rotate(18deg);
+      box-shadow: 0 0 70px rgba(104,169,255,.10);
+    }
+
+    .release-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .version-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 10px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .version {
+      font-size: 34px;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .apk-size {
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .release-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .meta {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      padding: 13px;
+    }
+
+    .meta small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .meta strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+    }
+
+    .download-button {
+      width: 100%;
+      min-height: 58px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      border: 0;
+      border-radius: 0;
+      color: #06101e;
+      background: linear-gradient(135deg, #f7fbff, #9ecbff);
+      font: inherit;
+      font-weight: 850;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 14px 40px rgba(70, 144, 236, .20);
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .download-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .download-button:active { transform: translateY(0); }
+
+    .download-button svg { width: 21px; height: 21px; }
+
+    .countdown {
+      min-height: 44px;
+      margin: 15px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .countdown strong { color: var(--text); }
+
+    .cancel-auto {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      color: #c5d9f2;
+      background: none;
+      font: inherit;
+      font-size: 12px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 72px;
+    }
+
+    .feature {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      padding: 22px;
+    }
+
+    .feature-number {
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+    }
+
+    .feature h2 {
+      margin: 12px 0 6px;
+      font-size: 18px;
+      letter-spacing: -.025em;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border-left: 2px solid var(--accent);
+      background: rgba(104,169,255,.055);
+      color: #cbd5e3;
+      font-size: 13px;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 62px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: #7f8997;
+      font-size: 12px;
+    }
+
+    footer a { color: #b9c5d4; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .status-error {
+      color: #ffb4b4;
+    }
+
+    @media (max-width: 850px) {
+      .topbar { margin-bottom: 22px; }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 38px;
+        min-height: auto;
+      }
+      .features { grid-template-columns: 1fr; }
+      .download-card { max-width: 620px; }
+    }
+
+    @media (max-width: 520px) {
+      .page { width: min(100% - 22px, 1120px); padding-top: 16px; }
+      .top-badge { display: none; }
+      h1 { font-size: clamp(48px, 16vw, 68px); }
+      .lead { font-size: 16px; }
+      .download-card { padding: 22px; }
+      .release-meta { grid-template-columns: 1fr; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand" aria-label="explorTV">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="13" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 21h8M9 2l3 3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+            <path d="m10 9 5 2.5-5 2.5V9Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>explor<span>TV</span></div>
+      </div>
+      <div class="top-badge">Versiune disponibilă</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Player media pentru ecranul tău mare</p>
+        <h1>Televiziunea ta.<br>Exact cum vrei.</h1>
+        <p class="lead">
+          explorTV este un player modern pentru Android TV și Fire TV,
+          creat pentru listele tale M3U, Xtream și MAC Portal.
+        </p>
+
+        <div class="chips" aria-label="Platforme și funcții">
+          <span class="chip">Android TV</span>
+          <span class="chip">Fire TV</span>
+          <span class="chip">M3U</span>
+          <span class="chip">Xtream</span>
+          <span class="chip">MAC Portal</span>
+        </div>
+      </div>
+
+      <aside class="download-card" aria-labelledby="download-title">
+        <p class="release-label" id="download-title">Cea mai recentă versiune</p>
+
+        <div class="version-row">
+          <div class="version" id="version">1.0.2</div>
+          <div class="apk-size" id="apk-size">APK Android</div>
+        </div>
+
+        <div class="release-meta">
+          <div class="meta">
+            <small>Actualizat</small>
+            <strong id="release-date">Se verifică…</strong>
+          </div>
+          <div class="meta">
+            <small>Fișier</small>
+            <strong>explorTV.apk</strong>
+          </div>
+        </div>
+
+        <button class="download-button" id="download-button" type="button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+          Descarcă explorTV
+        </button>
+
+        <div class="countdown" id="countdown" aria-live="polite">
+          Descărcarea începe automat în <strong id="seconds">5</strong> secunde.<br>
+          <button class="cancel-auto" id="cancel-auto" type="button">Oprește descărcarea automată</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="features" aria-label="Instrucțiuni de instalare">
+      <article class="feature">
+        <div class="feature-number">01</div>
+        <h2>Descarcă APK-ul</h2>
+        <p>Apasă butonul de mai sus sau lasă descărcarea automată să pornească.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-number">02</div>
+        <h2>Permite instalarea</h2>
+        <p>Activează instalarea aplicațiilor din surse necunoscute pentru browserul sau downloaderul folosit.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-number">03</div>
+        <h2>Instalează explorTV</h2>
+        <p>Deschide fișierul explorTV.apk și urmează pașii afișați pe dispozitiv.</p>
+      </article>
+    </section>
+
+    <div class="notice">
+      explorTV este un player și nu include, nu furnizează și nu comercializează conținut sau liste TV.
+    </div>
+
+    <footer>
+      <span>© <span id="year"></span> explorTV</span>
+      <a href="https://github.com/FlorinNegoita/explorTV-downloads/releases" rel="noopener">Istoric versiuni</a>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const owner = "FlorinNegoita";
+      const repo = "explorTV-downloads";
+      const assetName = "explorTV.apk";
+
+      const fallbackUrl =
+        `https://github.com/${owner}/${repo}/releases/latest/download/${assetName}`;
+
+      let downloadUrl = fallbackUrl;
+      let autoDownloadEnabled = true;
+      let secondsLeft = 5;
+      let timerId = null;
+
+      const versionEl = document.getElementById("version");
+      const sizeEl = document.getElementById("apk-size");
+      const dateEl = document.getElementById("release-date");
+      const secondsEl = document.getElementById("seconds");
+      const countdownEl = document.getElementById("countdown");
+      const buttonEl = document.getElementById("download-button");
+      const cancelEl = document.getElementById("cancel-auto");
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const formatBytes = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes <= 0) return "APK Android";
+        const mb = bytes / 1024 / 1024;
+        return `${mb.toFixed(1)} MB`;
+      };
+
+      const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        if (Number.isNaN(date.getTime())) return "Versiunea curentă";
+        return new Intl.DateTimeFormat("ro-RO", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }).format(date);
+      };
+
+      const startDownload = () => {
+        window.location.assign(downloadUrl);
+      };
+
+      const startCountdown = () => {
+        timerId = window.setInterval(() => {
+          secondsLeft -= 1;
+          secondsEl.textContent = String(secondsLeft);
+
+          if (secondsLeft <= 0) {
+            window.clearInterval(timerId);
+            if (autoDownloadEnabled) startDownload();
+          }
+        }, 1000);
+      };
+
+      buttonEl.addEventListener("click", () => {
+        autoDownloadEnabled = false;
+        if (timerId) window.clearInterval(timerId);
+        countdownEl.innerHTML = "Descărcarea a fost pornită. Dacă nu începe, apasă din nou butonul.";
+        startDownload();
+      });
+
+      cancelEl.addEventListener("click", () => {
+        autoDownloadEnabled = false;
+        if (timerId) window.clearInterval(timerId);
+        countdownEl.textContent = "Descărcarea automată a fost oprită. Folosește butonul când ești pregătit.";
+      });
+
+      fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, {
+        headers: { "Accept": "application/vnd.github+json" }
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(`GitHub API: ${response.status}`);
+          return response.json();
+        })
+        .then((release) => {
+          const asset = Array.isArray(release.assets)
+            ? release.assets.find((item) => item.name === assetName)
+            : null;
+
+          versionEl.textContent = String(release.tag_name || "v1.0.2").replace(/^v/i, "");
+          dateEl.textContent = formatDate(release.published_at || release.created_at);
+
+          if (asset) {
+            downloadUrl = asset.browser_download_url || fallbackUrl;
+            sizeEl.textContent = formatBytes(asset.size);
+          }
+        })
+        .catch(() => {
+          dateEl.textContent = "Versiunea curentă";
+          sizeEl.textContent = "APK Android";
+        })
+        .finally(startCountdown);
+    })();
+  </script>
+</body>
+</html>
